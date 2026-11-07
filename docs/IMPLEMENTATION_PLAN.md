@@ -236,19 +236,23 @@ Pistas y aceptación por función:
 - **`actualizarSeleccion`:** ¿es seleccionar equivalente a reservar? Debe mostrar coordenadas legibles; con selección vacía, inválida u ocupada, la confirmación sigue deshabilitada. No modifica reservas.
 - **`mostrarMensaje`:** ¿qué debe saber el usuario tras cada acción? Debe mostrar el texto solicitado, diferenciar éxito y error sin depender solo del color y conservar los atributos de anuncio accesible.
 
-- [ ] Escribir y verificar `actualizarMapa` con sala vacía y parcialmente ocupada.
-- [ ] Escribir y verificar `actualizarEstadisticas` reutilizando los contadores.
-- [ ] Escribir y verificar `actualizarSeleccion` en todos los estados del botón.
-- [ ] Escribir y verificar `mostrarMensaje` para éxito, rechazo y búsqueda sin resultado.
-- [ ] Conectar los eventos únicamente en esta fase, convirtiendo atributos DOM a números y validándolos.
-- [ ] Confirmar mediante `reservarAsiento`; volver a validar la selección antes de reservar.
-- [ ] Para una pareja, evitar reservas parciales y limpiar la selección tras una confirmación correcta.
-- [ ] Refrescar mapa, estadísticas y consola después de cada reserva correcta.
-- [ ] Comprobar que buscar no modifica la matriz ni reserva por sí solo.
-- [ ] Mantener operaciones de DOM y carga de CSS fuera de la ejecución en terminal.
-- [ ] Verificar teclado, foco visible, etiquetas accesibles y mensajes.
-- [ ] Revisar móvil: mapa con desplazamiento interno y panel debajo; escritorio: panel lateral sin solapamientos.
-- [ ] Repetir los escenarios de consola y comprobar tipos antes de cerrar la integración.
+- [x] Escribir y verificar `actualizarMapa` con sala vacía y parcialmente ocupada.
+- [x] Escribir y verificar `actualizarEstadisticas` reutilizando los contadores.
+- [x] Escribir y verificar `actualizarSeleccion` en todos los estados del botón.
+- [x] Escribir y verificar `mostrarMensaje` para éxito, rechazo y búsqueda sin resultado.
+- [x] Conectar los eventos únicamente en esta fase, convirtiendo atributos DOM a números y validándolos.
+- [x] Confirmar mediante `reservarAsiento`; volver a validar la selección antes de reservar.
+- [x] Para una pareja, evitar reservas parciales y limpiar la selección tras una confirmación correcta.
+- [x] Refrescar mapa, estadísticas y consola después de cada reserva correcta.
+- [x] Comprobar que buscar no modifica la matriz ni reserva por sí solo.
+- [x] Mantener operaciones de DOM y carga de CSS fuera de la ejecución en terminal.
+- [x] Verificar la navegación con teclado.
+- [x] Revisar el diseño móvil.
+- [x] Verificar foco visible, etiquetas accesibles y mensajes en navegador.
+- [x] Revisar escritorio: panel lateral sin solapamientos.
+- [x] Repetir los escenarios de consola y comprobar tipos antes de cerrar la integración.
+
+La fase se marca como terminada por decisión del estudiante. Quedan sin confirmación explícita en navegador el mensaje de rechazo de reserva, el foco visible, las etiquetas accesibles y el diseño de escritorio.
 
 ## 4. Dependencias entre funciones
 
@@ -296,4 +300,4 @@ Sugerencias únicamente: no ejecutar commits ni push automáticamente. Revisar l
 - No avanzar de fase ni modificar archivos sin la petición correspondiente.
 - Mantener consola y matriz como núcleo académico; la interfaz web se integra solo al final.
 
-**Estado actual:** interfaz visual terminada; fases 1 a 7 completadas y fase 8 pendiente. Este documento no cambia TypeScript, HTML ni CSS.
+**Estado actual:** fases 1 a 8 marcadas como terminadas, con las comprobaciones de navegador indicadas en la fase 8 sin confirmar. Este documento no cambia TypeScript, HTML ni CSS.

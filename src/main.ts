@@ -232,3 +232,132 @@ console.log("Casi llena con libres separados:", buscarDosContiguos(casiLlenaSepa
 console.assert(JSON.stringify(buscarDosContiguos(casiLlenaContiguos)) === JSON.stringify([7, 8, 9]), "Pareja final inesperada");
 console.assert(buscarDosContiguos(casiLlenaSeparados) === null, "Los asientos separados no forman pareja");
 
+// ---- Fase 8: integración con la interfaz ----
+if (typeof document !== "undefined") {
+    const mapa = document.querySelector<HTMLElement>("#seat-map");
+    const total = document.querySelector<HTMLElement>("#total-seats");
+    const disponibles = document.querySelector<HTMLElement>("#available-seats");
+    const ocupados = document.querySelector<HTMLElement>("#occupied-seats");
+    const barraDisponibilidad = document.querySelector<HTMLElement>("#availability-bar");
+    const asientoSeleccionado = document.querySelector<HTMLElement>("#selected-seat");
+    const confirmar = document.querySelector<HTMLButtonElement>("#confirm-reservation");
+    const buscar = document.querySelector<HTMLButtonElement>("#find-adjacent-seats");
+    const mensaje = document.querySelector<HTMLElement>("#reservation-message");
+
+    // La selección es temporal; solo la matriz sala guarda las reservas.
+    let seleccion: number[][] = [];
+
+    function nombreAsiento(fila: number, columna: number): string {
+        return `${String.fromCharCode(65 + fila)}${columna + 1}`;
+    }
+
+    function actualizarMapa(): void {
+        mapa?.querySelectorAll<HTMLButtonElement>("button.seat").forEach((boton) => {
+            const fila = Number(boton.dataset.row);
+            const columna = Number(boton.dataset.column);
+            const existe = boton.dataset.row !== undefined && boton.dataset.column !== undefined
+                && existeAsiento(sala, fila, columna);
+            const libre = existe && estaDisponible(sala, fila, columna);
+            const seleccionado = libre && seleccion.some(([filaSeleccionada, columnaSeleccionada]) =>
+                filaSeleccionada === fila && columnaSeleccionada === columna);
+
+            boton.classList.toggle("seat-occupied", existe && !libre);
+            boton.classList.toggle("seat-selected", seleccionado);
+            boton.disabled = !libre;
+            boton.setAttribute("aria-pressed", String(seleccionado));
+            if (existe) {
+                const estado = seleccionado ? "seleccionada" : libre ? "disponible" : "ocupada";
+                boton.setAttribute("aria-label", `Fila ${String.fromCharCode(65 + fila)}, butaca ${columna + 1}, ${estado}`);
+                boton.textContent = libre ? String(columna + 1) : "×";
+            }
+        });
+    }
+
+    function actualizarEstadisticas(): void {
+        const cantidadDisponibles = contarDisponibles(sala);
+        const cantidadOcupados = contarOcupados(sala);
+        const cantidadTotal = cantidadDisponibles + cantidadOcupados;
+        if (total) total.textContent = String(cantidadTotal);
+        if (disponibles) disponibles.textContent = String(cantidadDisponibles);
+        if (ocupados) ocupados.textContent = String(cantidadOcupados);
+        if (barraDisponibilidad) {
+            barraDisponibilidad.style.width = `${cantidadTotal === 0 ? 0 : cantidadDisponibles / cantidadTotal * 100}%`;
+        }
+    }
+
+    function actualizarSeleccion(): void {
+        const seleccionValida = seleccion.length > 0 && seleccion.every(([fila, columna]) =>
+            estaDisponible(sala, fila, columna));
+        if (asientoSeleccionado) {
+            asientoSeleccionado.textContent = seleccionValida
+                ? seleccion.map(([fila, columna]) => nombreAsiento(fila, columna)).join(", ")
+                : "Sin selección";
+        }
+        if (confirmar) confirmar.disabled = !seleccionValida;
+    }
+
+    function mostrarMensaje(texto: string, esError: boolean): void {
+        if (!mensaje) return;
+        mensaje.textContent = texto ? `${esError ? "Error: " : ""}${texto}` : "";
+        mensaje.classList.toggle("text-red-300", esError);
+        mensaje.classList.toggle("text-slate-400", !esError);
+    }
+
+    function actualizarInterfaz(): void {
+        actualizarMapa();
+        actualizarEstadisticas();
+        actualizarSeleccion();
+    }
+
+    mapa?.addEventListener("click", (evento) => {
+        const objetivo = evento.target;
+        if (!(objetivo instanceof Element)) return;
+        const boton = objetivo.closest<HTMLButtonElement>("button.seat");
+        if (!boton || !mapa.contains(boton) || boton.dataset.row === undefined || boton.dataset.column === undefined) return;
+        const fila = Number(boton.dataset.row);
+        const columna = Number(boton.dataset.column);
+        if (!estaDisponible(sala, fila, columna)) {
+            mostrarMensaje("La butaca no está disponible.", true);
+            return;
+        }
+        const yaSeleccionado = seleccion.length === 1 && seleccion[0][0] === fila && seleccion[0][1] === columna;
+        seleccion = yaSeleccionado ? [] : [[fila, columna]];
+        mostrarMensaje("", false);
+        actualizarInterfaz();
+    });
+
+    buscar?.addEventListener("click", () => {
+        const pareja = buscarDosContiguos(sala);
+        if (!pareja) {
+            seleccion = [];
+            mostrarMensaje("No hay dos asientos contiguos disponibles.", true);
+        } else {
+            const [fila, primeraColumna, segundaColumna] = pareja;
+            seleccion = [[fila, primeraColumna], [fila, segundaColumna]];
+            mostrarMensaje(`Asientos encontrados: ${nombreAsiento(fila, primeraColumna)} y ${nombreAsiento(fila, segundaColumna)}.`, false);
+        }
+        actualizarInterfaz();
+    });
+
+    confirmar?.addEventListener("click", () => {
+        // Comprobamos la selección completa antes de reservar para evitar cambios parciales.
+        const coordenadasUnicas = new Set(seleccion.map(([fila, columna]) => `${fila},${columna}`));
+        if (seleccion.length === 0 || coordenadasUnicas.size !== seleccion.length
+            || !seleccion.every(([fila, columna]) => estaDisponible(sala, fila, columna))) {
+            seleccion = [];
+            mostrarMensaje("La selección ya no está disponible.", true);
+            actualizarInterfaz();
+            return;
+        }
+        const nombres = seleccion.map(([fila, columna]) => nombreAsiento(fila, columna)).join(", ");
+        seleccion.forEach(([fila, columna]) => reservarAsiento(sala, fila, columna));
+        seleccion = [];
+        mostrarMensaje(`Reserva confirmada: ${nombres}.`, false);
+        actualizarInterfaz();
+        mostrarSala(sala);
+        buscar?.focus();
+    });
+
+    actualizarInterfaz();
+}
+
