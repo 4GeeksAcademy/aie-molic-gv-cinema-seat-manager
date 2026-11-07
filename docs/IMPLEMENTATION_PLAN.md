@@ -99,11 +99,11 @@ Cada checklist empieza pendiente. Completar únicamente la fase solicitada, revi
 
 En esta fase trabajar únicamente con entradas válidas y libres. La función no se considera terminada ni lista para la interfaz hasta completar las validaciones de la fase 4.
 
-- [ ] Escribir la operación básica con entradas válidas.
-- [ ] Comprobar una reserva en la primera y en la última butaca.
-- [ ] Verificar que ninguna otra posición cambia.
-- [ ] Mostrar la sala antes y después usando `mostrarSala`.
-- [ ] Dejar pendiente la robustez frente a entradas inválidas y reservas repetidas.
+- [x] Escribir la operación básica con entradas válidas.
+- [x] Comprobar una reserva en la primera y en la última butaca.
+- [x] Verificar que ninguna otra posición cambia.
+- [x] Mostrar la sala antes y después usando `mostrarSala`.
+- [x] Dejar pendiente la robustez frente a entradas inválidas y reservas repetidas.
 
 ### Fase 4. Validar existencia y disponibilidad
 
@@ -116,8 +116,8 @@ En esta fase trabajar únicamente con entradas válidas y libres. La función no
 - **Pistas:** ¿basta con que un parámetro tenga tipo `number` para que sea un índice válido? ¿Qué debes comprobar antes de consultar una fila?
 - **Aceptación:** acepta los extremos válidos y rechaza índices negativos, fuera de rango, fraccionarios, `NaN` e infinitos, sin errores de acceso ni cambios en la sala.
 
-- [ ] Escribir la validación de coordenadas enteras y límites.
-- [ ] Comprobar extremos válidos y todos los casos inválidos mencionados.
+- [x] Escribir la validación de coordenadas enteras y límites.
+- [x] Comprobar extremos válidos y todos los casos inválidos mencionados.
 
 **Nombre sugerido:** `estaDisponible`.
 
@@ -128,15 +128,15 @@ En esta fase trabajar únicamente con entradas válidas y libres. La función no
 - **Pistas:** ¿qué validación debe ocurrir antes de consultar el estado? ¿Cómo reutilizar la comprobación anterior?
 - **Aceptación:** devuelve `true` para un cero válido y `false` para un uno o una coordenada inexistente; nunca modifica la sala.
 
-- [ ] Escribir la función reutilizando la comprobación de existencia.
-- [ ] Probar una posición libre, una ocupada y una inexistente.
+- [x] Escribir la función reutilizando la comprobación de existencia.
+- [x] Probar una posición libre, una ocupada y una inexistente.
 
 **Completar `reservarAsiento`:** conservar sus parámetros y retorno de la fase 3; añadir composición de validaciones y rechazo sin mutación.
 
-- [ ] Integrar las comprobaciones antes de modificar la matriz.
-- [ ] Reservar dos veces la misma butaca: primera llamada `true`, segunda `false`.
-- [ ] Comprobar que una coordenada inválida devuelve `false` sin lanzar errores.
-- [ ] Verificar que todos los rechazos dejan la matriz intacta.
+- [x] Integrar las comprobaciones antes de modificar la matriz.
+- [x] Reservar dos veces la misma butaca: primera llamada `true`, segunda `false`.
+- [x] Comprobar que una coordenada inválida devuelve `false` sin lanzar errores.
+- [x] Verificar que todos los rechazos dejan la matriz intacta.
 
 ### Fase 5. Contar disponibles y ocupados
 
@@ -151,10 +151,10 @@ Para cada función:
 - **Pistas:** ¿dónde debe empezar el contador? ¿Qué condición distingue el estado que estás contando? ¿Qué ocurriría si conservaras un contador de una llamada anterior?
 - **Aceptación:** resultado entero entre 0 y 80, correcto para el estado contado; llamadas repetidas dan el mismo resultado si no cambia la sala; no modifica la matriz. Los dos resultados suman 80.
 
-- [ ] Escribir y comprobar `contarDisponibles`: 80 en sala vacía y 79 tras una reserva.
-- [ ] Escribir y comprobar `contarOcupados`: 0 en sala vacía y 1 tras una reserva.
-- [ ] Mostrar ambos resultados en consola.
-- [ ] Comprobar que la suma es 80 y que los contadores no acumulan entre llamadas.
+- [x] Escribir y comprobar `contarDisponibles`: 80 en sala vacía y 79 tras una reserva.
+- [x] Escribir y comprobar `contarOcupados`: 0 en sala vacía y 1 tras una reserva.
+- [x] Mostrar ambos resultados en consola.
+- [x] Comprobar que la suma es 80 y que los contadores no acumulan entre llamadas.
 
 ### Fase 6. Buscar dos asientos libres contiguos
 
@@ -169,12 +169,12 @@ Para cada función:
 
 El requisito académico define contigüidad por columnas consecutivas en la misma fila. Por tanto, las columnas visibles 5 y 6 cuentan como contiguas aunque el diseño muestre un pasillo entre ellas. Excluirlas sería un cambio de requisito que debe acordarse expresamente.
 
-- [ ] Acordar y respetar el formato de retorno, sin objetos de asiento.
-- [ ] Comprobar la primera pareja de una sala vacía.
-- [ ] Comprobar una pareja situada al final de una fila.
-- [ ] Rechazar parejas entre filas o con una butaca ocupada.
-- [ ] Comprobar una sala con libres aislados, pero sin parejas.
-- [ ] Mostrar el resultado o la ausencia de pareja en consola.
+- [x] Acordar y respetar el formato de retorno, sin objetos de asiento.
+- [x] Comprobar la primera pareja de una sala vacía.
+- [x] Comprobar una pareja situada al final de una fila.
+- [x] Rechazar parejas entre filas o con una butaca ocupada.
+- [x] Comprobar una sala con libres aislados, pero sin parejas.
+- [x] Mostrar el resultado o la ausencia de pareja en consola.
 
 ### Fase 7. Probar los cuatro escenarios
 
@@ -195,12 +195,12 @@ Los recuentos y búsquedas indicados corresponden al estado inicial de cada esce
 
 **Pistas:** ¿qué evidencia de consola demuestra cada condición? ¿Qué comprobaciones debes repetir después de intentar una reserva? ¿Por qué conviene restablecer la sala entre escenarios?
 
-- [ ] Preparar cada escenario usando matrices y las funciones propias, sin objetos ni clases de asiento.
-- [ ] Imprimir sala, recuentos, búsqueda y resultado de reserva para cada caso.
-- [ ] Comparar la salida con la tabla y comprobar los cambios posteriores.
-- [ ] Añadir una variante casi llena con dos libres contiguos y otra con dos libres separados.
-- [ ] Repetir casos de límites y reservas rechazadas, verificando ausencia de mutación.
-- [ ] Conservar una forma reproducible de ejecutar las comprobaciones de consola.
+- [x] Preparar cada escenario usando matrices y las funciones propias, sin objetos ni clases de asiento.
+- [x] Imprimir sala, recuentos, búsqueda y resultado de reserva para cada caso.
+- [x] Comparar la salida con la tabla y comprobar los cambios posteriores.
+- [x] Añadir una variante casi llena con dos libres contiguos y otra con dos libres separados.
+- [x] Repetir casos de límites y reservas rechazadas, verificando ausencia de mutación.
+- [x] Conservar una forma reproducible de ejecutar las comprobaciones de consola.
 
 ### Fase 8. Integrar con HTML/Tailwind
 
@@ -296,4 +296,4 @@ Sugerencias únicamente: no ejecutar commits ni push automáticamente. Revisar l
 - No avanzar de fase ni modificar archivos sin la petición correspondiente.
 - Mantener consola y matriz como núcleo académico; la interfaz web se integra solo al final.
 
-**Estado actual:** interfaz visual terminada; fases 1 y 2 completadas y fases 3 a 8 pendientes. Este documento no cambia TypeScript, HTML ni CSS.
+**Estado actual:** interfaz visual terminada; fases 1 a 7 completadas y fase 8 pendiente. Este documento no cambia TypeScript, HTML ni CSS.
